@@ -14,7 +14,7 @@
 
         body {
             font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
-            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+            background: #000000;
             min-height: 100vh;
             display: flex;
             align-items: center;
@@ -29,32 +29,32 @@
             padding: 40px;
             max-width: 900px;
             width: 100%;
-            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1), 0 0 0 1px rgba(255, 255, 255, 0.2);
-            border: 1px solid rgba(255, 255, 255, 0.3);
+            box-shadow: 0 30px 60px rgba(0, 0, 0, 0.15), 0 0 0 1px rgba(255, 255, 255, 0.3);
         }
 
         .header {
             text-align: center;
             margin-bottom: 40px;
+            position: relative;
         }
 
         .logo {
             font-size: 24px;
-            font-weight: 700;
-            color: #1a73e8;
+            font-weight: 800;
+            color: #000000;
             margin-bottom: 10px;
         }
 
         .title {
-            font-size: 32px;
-            font-weight: 700;
-            color: #1d1d1f;
+            font-size: 36px;
+            font-weight: 800;
+            color: #000000;
             margin-bottom: 8px;
         }
 
         .subtitle {
             font-size: 18px;
-            color: #86868b;
+            color: #6b7280;
         }
 
         .input-section {
@@ -75,29 +75,29 @@
 
         .input-group label {
             font-weight: 600;
-            color: #1d1d1f;
+            color: #000000;
             font-size: 16px;
         }
 
         .input-group input {
             padding: 16px 20px;
-            border: 2px solid #e5e5e7;
+            border: 2px solid #e5e7eb;
             border-radius: 12px;
             font-size: 16px;
             transition: all 0.3s ease;
-            background: rgba(255, 255, 255, 0.8);
+            background: rgba(255, 255, 255, 0.9);
         }
 
         .input-group input:focus {
             outline: none;
-            border-color: #1a73e8;
-            box-shadow: 0 0 0 4px rgba(26, 115, 232, 0.1);
+            border-color: #000000;
+            box-shadow: 0 0 0 4px rgba(0, 0, 0, 0.1);
         }
 
         .generate-btn {
             width: 100%;
             padding: 18px;
-            background: linear-gradient(135deg, #1a73e8 0%, #0d47a1 100%);
+            background: #000000;
             color: white;
             border: none;
             border-radius: 12px;
@@ -110,7 +110,7 @@
 
         .generate-btn:hover {
             transform: translateY(-2px);
-            box-shadow: 0 10px 30px rgba(26, 115, 232, 0.3);
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.4);
         }
 
         .results {
@@ -125,35 +125,54 @@
 
         .score-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
             gap: 20px;
             margin-bottom: 40px;
         }
 
         .score-card {
-            background: rgba(255, 255, 255, 0.9);
-            padding: 24px;
-            border-radius: 16px;
+            background: rgba(255, 255, 255, 0.95);
+            padding: 28px;
+            border-radius: 20px;
             text-align: center;
-            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.08);
-            border: 1px solid rgba(255, 255, 255, 0.2);
-            transition: transform 0.3s ease;
+            box-shadow: 0 12px 32px rgba(0, 0, 0, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .score-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: #000000;
         }
 
         .score-card:hover {
-            transform: translateY(-4px);
+            transform: translateY(-8px);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.15);
         }
 
         .score-card.total {
             grid-column: span 2;
-            background: linear-gradient(135deg, #1a73e8 0%, #0d47a1 100%);
+            background: #000000;
             color: white;
+            border: none;
+        }
+
+        .score-card.total::before {
+            background: rgba(255, 255, 255, 0.3);
         }
 
         .score-card h3 {
             font-size: 16px;
-            margin-bottom: 12px;
-            color: #86868b;
+            font-weight: 600;
+            margin-bottom: 16px;
+            color: #4b5563;
         }
 
         .score-card.total h3 {
@@ -161,66 +180,45 @@
         }
 
         .score-value {
-            font-size: 48px;
+            font-size: 52px;
             font-weight: 800;
-            color: #1a73e8;
-            margin-bottom: 8px;
+            color: #000000;
+            margin-bottom: 16px;
         }
 
         .score-card.total .score-value {
             color: white;
-            font-size: 60px;
+            font-size: 64px;
         }
 
         .score-bar {
             width: 100%;
-            height: 8px;
-            background: #f1f3f4;
-            border-radius: 4px;
+            height: 10px;
+            background: #f1f5f9;
+            border-radius: 8px;
             overflow: hidden;
-            margin-bottom: 8px;
+            margin-bottom: 12px;
         }
 
         .score-fill {
             height: 100%;
-            background: linear-gradient(90deg, #1a73e8 0%, #4285f4 100%);
-            border-radius: 4px;
-            transition: width 1s ease;
+            background: #000000;
+            border-radius: 8px;
+            transition: width 1.5s cubic-bezier(0.4, 0, 0.2, 1);
         }
 
         .score-card.total .score-bar {
-            background: rgba(255, 255, 255, 0.3);
+            background: rgba(255, 255, 255, 0.2);
         }
 
         .score-card.total .score-fill {
             background: rgba(255, 255, 255, 0.9);
         }
 
-        .note-section {
-            background: rgba(255, 255, 255, 0.9);
-            padding: 32px;
-            border-radius: 16px;
-            margin-bottom: 30px;
-            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.08);
-            border: 1px solid rgba(255, 255, 255, 0.2);
-        }
-
-        .note-section h3 {
-            font-size: 24px;
-            color: #1d1d1f;
-            margin-bottom: 16px;
-        }
-
-        .note-content {
-            font-size: 16px;
-            line-height: 1.6;
-            color: #424245;
-        }
-
         .download-btn {
             width: 100%;
-            padding: 18px;
-            background: linear-gradient(135deg, #34a853 0%, #137333 100%);
+            padding: 20px;
+            background: #000000;
             color: white;
             border: none;
             border-radius: 12px;
@@ -232,7 +230,7 @@
 
         .download-btn:hover {
             transform: translateY(-2px);
-            box-shadow: 0 10px 30px rgba(52, 168, 83, 0.3);
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.4);
         }
 
         @media (max-width: 768px) {
@@ -332,12 +330,7 @@
                 </div>
             </div>
 
-            <div class="note-section">
-                <h3>Your Personalized Assessment</h3>
-                <div class="note-content" id="noteContent"></div>
-            </div>
-
-            <button class="download-btn" onclick="downloadPDF()">Download PDF Report</button>
+            <button class="download-btn" onclick="downloadPDF()">Download Aesthetic PDF Report</button>
         </div>
     </div>
 
@@ -358,19 +351,14 @@
             }
 
             const total = Math.round((mood + calm + identity + awareness + resilience) / 5);
-
             currentData = { name, mood, calm, identity, awareness, resilience, total };
 
-            // Update score displays with animation
             setTimeout(() => updateScore('moodScore', 'moodFill', mood), 100);
             setTimeout(() => updateScore('calmScore', 'calmFill', calm), 200);
             setTimeout(() => updateScore('identityScore', 'identityFill', identity), 300);
             setTimeout(() => updateScore('awarenessScore', 'awarenessFill', awareness), 400);
             setTimeout(() => updateScore('resilienceScore', 'resilienceFill', resilience), 500);
             setTimeout(() => updateScore('totalScore', 'totalFill', total), 600);
-
-            // Generate personalized note
-            generateNote(name, mood, calm, identity, awareness, resilience, total);
 
             document.getElementById('results').style.display = 'block';
         }
@@ -380,190 +368,136 @@
             document.getElementById(fillId).style.width = value + '%';
         }
 
-        function generateNote(name, mood, calm, identity, awareness, resilience, total) {
-            const scores = [
-                { name: 'Mood & Motivation', value: mood, key: 'mood' },
-                { name: 'Calm & Composure', value: calm, key: 'calm' },
-                { name: 'Identity & Purpose', value: identity, key: 'identity' },
-                { name: 'Emotional Awareness', value: awareness, key: 'awareness' },
-                { name: 'Resilience', value: resilience, key: 'resilience' }
-            ];
-
-            scores.sort((a, b) => b.value - a.value);
-            const strengths = scores.slice(0, 2);
-            const areas = scores.slice(-2);
-
-            let note = `Hi ${name},\n\nThank you for taking the time to complete the Overall Wellbeing Test. I've had a look at your responses and wanted to share a brief overview of what's coming up for you:\n\n`;
-
-            note += `- ${strengths[0].name} (${strengths[0].value}) and ${strengths[1].name} (${strengths[1].value}) stood out as strengths. `;
-            
-            if (strengths[0].key === 'mood') {
-                note += `It's great to see that you have a solid baseline of mental clarity and drive - a strong foundation we can build on.\n\n`;
-            } else if (strengths[0].key === 'calm') {
-                note += `Your ability to maintain composure and mental clarity is impressive - this gives you a strong foundation for growth.\n\n`;
-            } else {
-                note += `These are valuable strengths that provide a solid foundation for your wellbeing journey.\n\n`;
-            }
-
-            note += `- On the other hand, ${areas[0].name} (${areas[0].value}) and ${areas[1].name} (${areas[1].value}) are areas that might need a little more attention right now. `;
-            
-            if (areas[0].key === 'identity' || areas[1].key === 'identity') {
-                note += `This could mean you're in a phase of transition or feeling a bit out of sync with your sense of self - which is completely normal and something we can absolutely work through together.\n\n`;
-            } else if (areas[0].key === 'awareness' || areas[1].key === 'awareness') {
-                note += `Developing greater emotional clarity and self-awareness is a journey, and recognizing this need is already a positive step forward.\n\n`;
-            } else {
-                note += `These areas present opportunities for growth and development that we can explore together.\n\n`;
-            }
-
-            note += `- Your overall B-Score of ${total} reflects your current wellbeing baseline. `;
-            if (resilience >= 60) {
-                note += `Your Resilience (${resilience}) score shows your ability to bounce back and adapt, even when things feel uncertain - a really valuable strength as you move forward in this journey.`;
-            } else {
-                note += `Building resilience will be key to supporting your growth in other areas, and this is something we can definitely work on together.`;
-            }
-
-            document.getElementById('noteContent').innerHTML = note.replace(/\n/g, '<br>');
-        }
-
         function downloadPDF() {
             const { jsPDF } = window.jspdf;
-            const doc = new jsPDF();
+            const doc = new jsPDF('p', 'mm', 'a4');
 
-            // Background gradient effect
-            doc.setFillColor(245, 247, 250);
-            doc.rect(0, 0, 210, 297, 'F');
+            // Black background
+            doc.setFillColor(0, 0, 0);
+            doc.rect(0, 0, 210, 80, 'F');
 
-            // Header section with styling
-            doc.setFillColor(26, 115, 232);
-            doc.roundedRect(15, 15, 180, 25, 3, 3, 'F');
-            
+            // Decorative circles
+            doc.setFillColor(255, 255, 255, 0.1);
+            doc.circle(180, 20, 25, 'F');
+            doc.circle(30, 60, 15, 'F');
+
+            // Header section
             doc.setTextColor(255, 255, 255);
-            doc.setFontSize(18);
+            doc.setFontSize(32);
             doc.setFont('helvetica', 'bold');
-            doc.text('Mave Health', 20, 32);
+            doc.text('B-SCORE', 20, 35);
+            
+            doc.setFontSize(16);
+            doc.setFont('helvetica', 'normal');
+            doc.text('Wellbeing Assessment Report', 20, 45);
             
             doc.setFontSize(12);
-            doc.setFont('helvetica', 'normal');
-            doc.text('B-Score Assessment Report', 130, 32);
+            doc.text('Mave Health', 20, 55);
 
-            // User info card
+            // User info card with modern styling
             doc.setFillColor(255, 255, 255);
-            doc.roundedRect(15, 50, 180, 20, 2, 2, 'F');
-            doc.setDrawColor(230, 230, 230);
-            doc.roundedRect(15, 50, 180, 20, 2, 2, 'S');
-            
-            doc.setTextColor(29, 29, 31);
-            doc.setFontSize(14);
-            doc.setFont('helvetica', 'bold');
-            doc.text(`${currentData.name}`, 20, 58);
-            doc.setFont('helvetica', 'normal');
-            doc.setFontSize(10);
-            doc.setTextColor(134, 134, 139);
-            doc.text(`Report Generated: ${new Date().toLocaleDateString()}`, 20, 65);
+            doc.roundedRect(20, 90, 170, 25, 8, 8, 'F');
+            doc.setDrawColor(240, 242, 247);
+            doc.setLineWidth(0.5);
+            doc.roundedRect(20, 90, 170, 25, 8, 8, 'S');
 
-            // B-Score highlight section
-            doc.setFillColor(26, 115, 232);
-            doc.roundedRect(15, 80, 180, 35, 3, 3, 'F');
+            doc.setTextColor(26, 32, 44);
+            doc.setFontSize(18);
+            doc.setFont('helvetica', 'bold');
+            doc.text(currentData.name, 25, 103);
             
+            doc.setFontSize(10);
+            doc.setTextColor(107, 114, 128);
+            doc.setFont('helvetica', 'normal');
+            doc.text(`Generated: ${new Date().toLocaleDateString('en-US', { 
+                year: 'numeric', month: 'long', day: 'numeric' 
+            })}`, 25, 108);
+
+            // Main B-Score card with black styling
+            doc.setFillColor(0, 0, 0);
+            doc.roundedRect(20, 125, 170, 50, 12, 12, 'F');
+
+            // Decorative elements for B-Score card
+            doc.setFillColor(255, 255, 255, 0.2);
+            doc.circle(170, 140, 20, 'F');
+            doc.setFillColor(255, 255, 255, 0.1);
+            doc.circle(180, 160, 15, 'F');
+
             doc.setTextColor(255, 255, 255);
             doc.setFontSize(16);
             doc.setFont('helvetica', 'bold');
-            doc.text('B-Score (Buoyancy Score)', 20, 95);
+            doc.text('Buoyancy Score', 25, 140);
             
-            doc.setFontSize(36);
-            doc.text(`${currentData.total}`, 20, 110);
-            doc.setFontSize(14);
-            doc.text('/100', 50, 110);
+            doc.setFontSize(48);
+            doc.text(currentData.total.toString(), 25, 165);
+            doc.setFontSize(20);
+            doc.text('/100', 75, 165);
 
-            // Progress bar for B-Score
+            // Aesthetic progress bar
+            const barWidth = 100;
+            const barHeight = 8;
             doc.setFillColor(255, 255, 255, 0.3);
-            doc.roundedRect(90, 100, 100, 6, 3, 3, 'F');
+            doc.roundedRect(90, 150, barWidth, barHeight, 4, 4, 'F');
             doc.setFillColor(255, 255, 255);
-            doc.roundedRect(90, 100, currentData.total, 6, 3, 3, 'F');
+            doc.roundedRect(90, 150, (currentData.total * barWidth) / 100, barHeight, 4, 4, 'F');
 
-            // Individual scores section
-            doc.setTextColor(29, 29, 31);
-            doc.setFontSize(14);
-            doc.setFont('helvetica', 'bold');
-            doc.text('Assessment Breakdown', 20, 135);
-
+            // Individual scores with beautiful design
             const scores = [
-                ['Mood and Motivation', currentData.mood, [255, 87, 34]],
-                ['Calm and Composure', currentData.calm, [76, 175, 80]],
-                ['Identity and Purpose', currentData.identity, [156, 39, 176]],
-                ['Emotional Awareness', currentData.awareness, [255, 152, 0]],
-                ['Resilience', currentData.resilience, [33, 150, 243]]
+                { name: 'Mood & Motivation', value: currentData.mood, desc: 'Your mental energy and drive levels', color: [0, 0, 0] },
+                { name: 'Calm & Composure', value: currentData.calm, desc: 'Your ability to stay centered under pressure', color: [0, 0, 0] },
+                { name: 'Identity & Purpose', value: currentData.identity, desc: 'Your sense of self and life direction', color: [0, 0, 0] },
+                { name: 'Emotional Awareness', value: currentData.awareness, desc: 'Your understanding of your emotional patterns', color: [0, 0, 0] },
+                { name: 'Resilience', value: currentData.resilience, desc: 'Your ability to bounce back from challenges', color: [0, 0, 0] }
             ];
 
-            let yPos = 150;
-            scores.forEach(([name, score, color], index) => {
-                // Score card background
+            let yPos = 190;
+            scores.forEach(({ name, value, desc, color }) => {
+                // Score card background with shadow effect
                 doc.setFillColor(255, 255, 255);
-                doc.roundedRect(15, yPos - 5, 180, 18, 2, 2, 'F');
-                doc.setDrawColor(240, 240, 240);
-                doc.roundedRect(15, yPos - 5, 180, 18, 2, 2, 'S');
-                
-                // Score name
-                doc.setTextColor(29, 29, 31);
-                doc.setFontSize(11);
-                doc.setFont('helvetica', 'normal');
-                doc.text(name, 20, yPos + 2);
-                
-                // Score value
-                doc.setFont('helvetica', 'bold');
-                doc.text(`${score}`, 175, yPos + 2);
-                
-                // Progress bar background
-                doc.setFillColor(240, 240, 240);
-                doc.roundedRect(20, yPos + 5, 150, 4, 2, 2, 'F');
-                
-                // Progress bar fill
+                doc.roundedRect(20, yPos, 170, 28, 6, 6, 'F');
+                doc.setDrawColor(240, 242, 247);
+                doc.setLineWidth(0.5);
+                doc.roundedRect(20, yPos, 170, 28, 6, 6, 'S');
+
+                // Colored accent bar
                 doc.setFillColor(...color);
-                doc.roundedRect(20, yPos + 5, (score * 1.5), 4, 2, 2, 'F');
+                doc.roundedRect(20, yPos, 4, 28, 2, 2, 'F');
+
+                // Score name and value
+                doc.setTextColor(31, 41, 55);
+                doc.setFontSize(12);
+                doc.setFont('helvetica', 'bold');
+                doc.text(name, 30, yPos + 10);
                 
-                yPos += 25;
+                doc.setFontSize(20);
+                doc.text(value.toString(), 155, yPos + 12);
+
+                // Description
+                doc.setTextColor(107, 114, 128);
+                doc.setFontSize(8);
+                doc.setFont('helvetica', 'normal');
+                const wrappedDesc = doc.splitTextToSize(desc, 120);
+                doc.text(wrappedDesc[0], 30, yPos + 16);
+
+                // Mini progress bar
+                const miniBarWidth = 60;
+                const miniBarHeight = 3;
+                doc.setFillColor(245, 247, 250);
+                doc.roundedRect(30, yPos + 20, miniBarWidth, miniBarHeight, 1.5, 1.5, 'F');
+                doc.setFillColor(...color);
+                doc.roundedRect(30, yPos + 20, (value * miniBarWidth) / 100, miniBarHeight, 1.5, 1.5, 'F');
+
+                yPos += 32;
             });
 
-            // Insights section
-            doc.setTextColor(29, 29, 31);
-            doc.setFontSize(14);
-            doc.setFont('helvetica', 'bold');
-            doc.text('Personalized Insights', 20, yPos + 10);
-            
-            // Insights background
-            doc.setFillColor(248, 249, 250);
-            doc.roundedRect(15, yPos + 15, 180, 60, 3, 3, 'F');
-            doc.setDrawColor(230, 230, 230);
-            doc.roundedRect(15, yPos + 15, 180, 60, 3, 3, 'S');
-
-            // Format and add insights text
-            const noteText = document.getElementById('noteContent').innerText;
-            const lines = noteText.split('\n').filter(line => line.trim());
-            
-            doc.setFontSize(9);
-            doc.setFont('helvetica', 'normal');
-            doc.setTextColor(66, 66, 69);
-            
-            let textY = yPos + 25;
-            lines.forEach(line => {
-                if (line.trim()) {
-                    const wrappedText = doc.splitTextToSize(line.trim(), 170);
-                    wrappedText.forEach(wrappedLine => {
-                        if (textY < yPos + 70) {
-                            doc.text(wrappedLine, 20, textY);
-                            textY += 4;
-                        }
-                    });
-                    textY += 2;
-                }
-            });
-
-            // Footer
-            doc.setFillColor(26, 115, 232);
+            // Footer with black background
+            doc.setFillColor(0, 0, 0);
             doc.rect(0, 285, 210, 12, 'F');
             doc.setTextColor(255, 255, 255);
             doc.setFontSize(8);
-            doc.text('© 2025 Mave Health - Confidential Assessment Report', 20, 292);
+            doc.setFont('helvetica', 'normal');
+            doc.text('© 2025 Mave Health - Confidential Wellbeing Report', 20, 292);
+            doc.text(`ID: ${Math.random().toString(36).substr(2, 9).toUpperCase()}`, 150, 292);
 
             doc.save(`${currentData.name}_B-Score_Report.pdf`);
         }
