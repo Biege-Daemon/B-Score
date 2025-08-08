@@ -429,55 +429,141 @@
             const { jsPDF } = window.jspdf;
             const doc = new jsPDF();
 
-            // Header
-            doc.setFontSize(20);
-            doc.setTextColor(26, 115, 232);
-            doc.text('Mave Health', 20, 25);
+            // Background gradient effect
+            doc.setFillColor(245, 247, 250);
+            doc.rect(0, 0, 210, 297, 'F');
 
-            doc.setFontSize(16);
-            doc.setTextColor(0, 0, 0);
-            doc.text('B-Score Assessment Report', 20, 40);
-
+            // Header section with styling
+            doc.setFillColor(26, 115, 232);
+            doc.roundedRect(15, 15, 180, 25, 3, 3, 'F');
+            
+            doc.setTextColor(255, 255, 255);
+            doc.setFontSize(18);
+            doc.setFont('helvetica', 'bold');
+            doc.text('Mave Health', 20, 32);
+            
             doc.setFontSize(12);
-            doc.text(`Name: ${currentData.name}`, 20, 55);
-            doc.text(`Date: ${new Date().toLocaleDateString()}`, 20, 65);
+            doc.setFont('helvetica', 'normal');
+            doc.text('B-Score Assessment Report', 130, 32);
 
-            // Scores
-            let yPos = 85;
+            // User info card
+            doc.setFillColor(255, 255, 255);
+            doc.roundedRect(15, 50, 180, 20, 2, 2, 'F');
+            doc.setDrawColor(230, 230, 230);
+            doc.roundedRect(15, 50, 180, 20, 2, 2, 'S');
+            
+            doc.setTextColor(29, 29, 31);
             doc.setFontSize(14);
-            doc.text('Assessment Scores:', 20, yPos);
-            yPos += 15;
+            doc.setFont('helvetica', 'bold');
+            doc.text(`${currentData.name}`, 20, 58);
+            doc.setFont('helvetica', 'normal');
+            doc.setFontSize(10);
+            doc.setTextColor(134, 134, 139);
+            doc.text(`Report Generated: ${new Date().toLocaleDateString()}`, 20, 65);
 
-            doc.setFontSize(11);
+            // B-Score highlight section
+            doc.setFillColor(26, 115, 232);
+            doc.roundedRect(15, 80, 180, 35, 3, 3, 'F');
+            
+            doc.setTextColor(255, 255, 255);
+            doc.setFontSize(16);
+            doc.setFont('helvetica', 'bold');
+            doc.text('B-Score (Buoyancy Score)', 20, 95);
+            
+            doc.setFontSize(36);
+            doc.text(`${currentData.total}`, 20, 110);
+            doc.setFontSize(14);
+            doc.text('/100', 50, 110);
+
+            // Progress bar for B-Score
+            doc.setFillColor(255, 255, 255, 0.3);
+            doc.roundedRect(90, 100, 100, 6, 3, 3, 'F');
+            doc.setFillColor(255, 255, 255);
+            doc.roundedRect(90, 100, currentData.total, 6, 3, 3, 'F');
+
+            // Individual scores section
+            doc.setTextColor(29, 29, 31);
+            doc.setFontSize(14);
+            doc.setFont('helvetica', 'bold');
+            doc.text('Assessment Breakdown', 20, 135);
+
             const scores = [
-                ['Mood and Motivation', currentData.mood],
-                ['Calm and Composure', currentData.calm],
-                ['Identity and Purpose', currentData.identity],
-                ['Emotional Awareness', currentData.awareness],
-                ['Resilience', currentData.resilience]
+                ['Mood and Motivation', currentData.mood, [255, 87, 34]],
+                ['Calm and Composure', currentData.calm, [76, 175, 80]],
+                ['Identity and Purpose', currentData.identity, [156, 39, 176]],
+                ['Emotional Awareness', currentData.awareness, [255, 152, 0]],
+                ['Resilience', currentData.resilience, [33, 150, 243]]
             ];
 
-            scores.forEach(([name, score]) => {
-                doc.text(`${name}: ${score}/100`, 25, yPos);
-                yPos += 10;
+            let yPos = 150;
+            scores.forEach(([name, score, color], index) => {
+                // Score card background
+                doc.setFillColor(255, 255, 255);
+                doc.roundedRect(15, yPos - 5, 180, 18, 2, 2, 'F');
+                doc.setDrawColor(240, 240, 240);
+                doc.roundedRect(15, yPos - 5, 180, 18, 2, 2, 'S');
+                
+                // Score name
+                doc.setTextColor(29, 29, 31);
+                doc.setFontSize(11);
+                doc.setFont('helvetica', 'normal');
+                doc.text(name, 20, yPos + 2);
+                
+                // Score value
+                doc.setFont('helvetica', 'bold');
+                doc.text(`${score}`, 175, yPos + 2);
+                
+                // Progress bar background
+                doc.setFillColor(240, 240, 240);
+                doc.roundedRect(20, yPos + 5, 150, 4, 2, 2, 'F');
+                
+                // Progress bar fill
+                doc.setFillColor(...color);
+                doc.roundedRect(20, yPos + 5, (score * 1.5), 4, 2, 2, 'F');
+                
+                yPos += 25;
             });
 
-            yPos += 10;
+            // Insights section
+            doc.setTextColor(29, 29, 31);
             doc.setFontSize(14);
-            doc.setTextColor(26, 115, 232);
-            doc.text(`B-Score (Buoyancy Score): ${currentData.total}/100`, 25, yPos);
+            doc.setFont('helvetica', 'bold');
+            doc.text('Personalized Insights', 20, yPos + 10);
+            
+            // Insights background
+            doc.setFillColor(248, 249, 250);
+            doc.roundedRect(15, yPos + 15, 180, 60, 3, 3, 'F');
+            doc.setDrawColor(230, 230, 230);
+            doc.roundedRect(15, yPos + 15, 180, 60, 3, 3, 'S');
 
-            // Note
-            yPos += 20;
-            doc.setFontSize(12);
-            doc.setTextColor(0, 0, 0);
-            doc.text('Personalized Assessment:', 20, yPos);
-            yPos += 15;
-
+            // Format and add insights text
             const noteText = document.getElementById('noteContent').innerText;
-            const splitNote = doc.splitTextToSize(noteText, 170);
-            doc.setFontSize(10);
-            doc.text(splitNote, 20, yPos);
+            const lines = noteText.split('\n').filter(line => line.trim());
+            
+            doc.setFontSize(9);
+            doc.setFont('helvetica', 'normal');
+            doc.setTextColor(66, 66, 69);
+            
+            let textY = yPos + 25;
+            lines.forEach(line => {
+                if (line.trim()) {
+                    const wrappedText = doc.splitTextToSize(line.trim(), 170);
+                    wrappedText.forEach(wrappedLine => {
+                        if (textY < yPos + 70) {
+                            doc.text(wrappedLine, 20, textY);
+                            textY += 4;
+                        }
+                    });
+                    textY += 2;
+                }
+            });
+
+            // Footer
+            doc.setFillColor(26, 115, 232);
+            doc.rect(0, 285, 210, 12, 'F');
+            doc.setTextColor(255, 255, 255);
+            doc.setFontSize(8);
+            doc.text('© 2025 Mave Health - Confidential Assessment Report', 20, 292);
 
             doc.save(`${currentData.name}_B-Score_Report.pdf`);
         }
