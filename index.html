@@ -372,70 +372,80 @@
             const { jsPDF } = window.jspdf;
             const doc = new jsPDF('p', 'mm', 'a4');
 
-            // Modern header with clean typography
+            // Modern header with proper padding
             doc.setFillColor(0, 0, 0);
-            doc.rect(0, 0, 210, 50, 'F');
+            doc.rect(0, 0, 210, 60, 'F');
             
             doc.setTextColor(255, 255, 255);
-            doc.setFontSize(32);
+            doc.setFontSize(28);
             doc.setFont('helvetica', 'bold');
-            doc.text('B-SCORE', 30, 25);
+            doc.text('B-SCORE', 25, 30);
+            
+            doc.setFontSize(11);
+            doc.setFont('helvetica', 'normal');
+            doc.text('WELLBEING ASSESSMENT REPORT', 25, 40);
+            
+            // User name aligned to right in header
+            doc.setFontSize(16);
+            doc.setFont('helvetica', 'bold');
+            doc.text(`${currentData.name}`, 185, 30, { align: 'right' });
+            
+            doc.setFontSize(9);
+            doc.setFont('helvetica', 'normal');
+            doc.text('MAVE HEALTH', 185, 40, { align: 'right' });
+
+            // Main score section with proper spacing
+            doc.setFillColor(248, 250, 252);
+            doc.roundedRect(25, 80, 160, 70, 8, 8, 'F');
+            
+            doc.setTextColor(0, 0, 0);
+            doc.setFontSize(14);
+            doc.setFont('helvetica', 'bold');
+            doc.text('OVERALL B-SCORE', 105, 100, { align: 'center' });
+            
+            doc.setFontSize(48);
+            doc.setFont('helvetica', 'bold');
+            doc.text(`${currentData.total}`, 105, 125, { align: 'center' });
             
             doc.setFontSize(12);
             doc.setFont('helvetica', 'normal');
-            doc.text('WELLBEING ASSESSMENT REPORT', 30, 35);
-            
-            // User name in header
-            doc.setFontSize(14);
-            doc.setFont('helvetica', 'bold');
-            doc.text(`${currentData.name}`, 150, 25);
-            
-            doc.setFontSize(10);
-            doc.setFont('helvetica', 'normal');
-            doc.text('MAVE HEALTH', 150, 35);
+            doc.setTextColor(100, 100, 100);
+            doc.text('/100', 125, 125);
 
-            // Main score section with modern card design
-            doc.setFillColor(248, 250, 252);
-            doc.roundedRect(30, 70, 150, 50, 8, 8, 'F');
-            
-            doc.setTextColor(0, 0, 0);
-            doc.setFontSize(16);
-            doc.setFont('helvetica', 'bold');
-            doc.text('OVERALL B-SCORE', 105, 85, { align: 'center' });
-            
-            doc.setFontSize(56);
-            doc.setFont('helvetica', 'bold');
-            doc.text(`${currentData.total}`, 105, 110, { align: 'center' });
-            
-            // Modern progress circle representation
+            // Fixed circular progress indicator
             const centerX = 105;
-            const centerY = 140;
-            const radius = 15;
+            const centerY = 135;
+            const radius = 12;
             const percentage = currentData.total / 100;
             
             // Background circle
-            doc.setDrawColor(230, 230, 230);
-            doc.setLineWidth(4);
+            doc.setDrawColor(220, 220, 220);
+            doc.setLineWidth(3);
             doc.circle(centerX, centerY, radius, 'S');
             
-            // Progress arc
+            // Progress arc - properly calculated
             doc.setDrawColor(0, 0, 0);
-            doc.setLineWidth(4);
-            const endAngle = (percentage * 2 * Math.PI) - (Math.PI / 2);
-            for (let i = 0; i < percentage * 100; i++) {
-                const angle = (i / 100) * 2 * Math.PI - (Math.PI / 2);
-                const x1 = centerX + radius * Math.cos(angle);
-                const y1 = centerY + radius * Math.sin(angle);
-                const x2 = centerX + (radius - 0.1) * Math.cos(angle);
-                const y2 = centerY + (radius - 0.1) * Math.sin(angle);
-                doc.line(x1, y1, x2, y2);
+            doc.setLineWidth(3);
+            const steps = Math.floor(percentage * 360);
+            for (let i = 0; i <= steps; i++) {
+                const angle = (i * Math.PI) / 180 - (Math.PI / 2);
+                const x = centerX + radius * Math.cos(angle);
+                const y = centerY + radius * Math.sin(angle);
+                if (i === 0) {
+                    doc.circle(x, y, 0.5, 'F');
+                } else {
+                    const prevAngle = ((i - 1) * Math.PI) / 180 - (Math.PI / 2);
+                    const prevX = centerX + radius * Math.cos(prevAngle);
+                    const prevY = centerY + radius * Math.sin(prevAngle);
+                    doc.line(prevX, prevY, x, y);
+                }
             }
 
-            // Detailed scores section
+            // Detailed scores section with better spacing
             doc.setTextColor(0, 0, 0);
-            doc.setFontSize(18);
+            doc.setFontSize(16);
             doc.setFont('helvetica', 'bold');
-            doc.text('DETAILED BREAKDOWN', 30, 175);
+            doc.text('DETAILED BREAKDOWN', 25, 175);
 
             const scores = [
                 { name: 'Mood & Motivation', value: currentData.mood, desc: 'Mental energy and drive levels' },
@@ -447,54 +457,54 @@
 
             let yPos = 190;
             scores.forEach(({ name, value, desc }, index) => {
-                // Modern card for each score
-                doc.setFillColor(index % 2 === 0 ? 255 : 248, index % 2 === 0 ? 255 : 250, index % 2 === 0 ? 255 : 252);
-                doc.roundedRect(30, yPos - 5, 150, 28, 4, 4, 'F');
+                // Card with proper padding and spacing
+                doc.setFillColor(index % 2 === 0 ? 255 : 250, index % 2 === 0 ? 255 : 252, index % 2 === 0 ? 255 : 254);
+                doc.roundedRect(25, yPos, 160, 32, 6, 6, 'F');
                 
-                // Score name
+                // Score name with proper left padding
                 doc.setTextColor(0, 0, 0);
-                doc.setFontSize(13);
+                doc.setFontSize(12);
                 doc.setFont('helvetica', 'bold');
-                doc.text(name, 35, yPos + 3);
+                doc.text(name, 35, yPos + 12);
                 
-                // Score value with modern styling
-                doc.setFontSize(20);
+                // Score value aligned to right with proper padding
+                doc.setFontSize(18);
                 doc.setFont('helvetica', 'bold');
-                doc.text(`${value}`, 155, yPos + 3);
+                doc.text(`${value}`, 165, yPos + 12, { align: 'right' });
                 
-                doc.setFontSize(10);
+                doc.setFontSize(9);
+                doc.setFont('helvetica', 'normal');
+                doc.setTextColor(120, 120, 120);
+                doc.text('/100', 170, yPos + 12);
+
+                // Description with proper spacing
+                doc.setFontSize(9);
                 doc.setFont('helvetica', 'normal');
                 doc.setTextColor(100, 100, 100);
-                doc.text('/100', 166, yPos + 3);
+                doc.text(desc, 35, yPos + 20);
 
-                // Description with better visibility
-                doc.setFontSize(10);
-                doc.setFont('helvetica', 'normal');
-                doc.setTextColor(80, 80, 80);
-                doc.text(desc, 35, yPos + 12);
-
-                // Modern progress bar
-                const barWidth = 100;
-                const barHeight = 3;
+                // Progress bar with proper alignment and spacing
+                const barWidth = 110;
+                const barHeight = 4;
                 doc.setFillColor(230, 230, 230);
-                doc.roundedRect(35, yPos + 16, barWidth, barHeight, 1.5, 1.5, 'F');
+                doc.roundedRect(35, yPos + 24, barWidth, barHeight, 2, 2, 'F');
                 doc.setFillColor(0, 0, 0);
-                doc.roundedRect(35, yPos + 16, (value * barWidth) / 100, barHeight, 1.5, 1.5, 'F');
+                doc.roundedRect(35, yPos + 24, (value * barWidth) / 100, barHeight, 2, 2, 'F');
 
-                yPos += 35;
+                yPos += 40;
             });
 
-            // Modern footer
+            // Footer with proper spacing
             doc.setFillColor(248, 250, 252);
-            doc.rect(0, 270, 210, 27, 'F');
+            doc.rect(0, 275, 210, 22, 'F');
             
-            doc.setTextColor(100, 100, 100);
-            doc.setFontSize(9);
+            doc.setTextColor(120, 120, 120);
+            doc.setFontSize(8);
             doc.setFont('helvetica', 'normal');
-            doc.text('© 2025 Mave Health', 30, 285);
+            doc.text('© 2025 Mave Health', 25, 288);
             
             const reportId = Math.random().toString(36).substr(2, 9).toUpperCase();
-            doc.text(`Report ID: ${reportId}`, 130, 285);
+            doc.text(`Report ID: ${reportId}`, 185, 288, { align: 'right' });
 
             doc.save(`${currentData.name}_B-Score_Report.pdf`);
         }
