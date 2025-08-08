@@ -372,132 +372,113 @@
             const { jsPDF } = window.jspdf;
             const doc = new jsPDF('p', 'mm', 'a4');
 
-            // Black background
-            doc.setFillColor(0, 0, 0);
-            doc.rect(0, 0, 210, 80, 'F');
-
-            // Decorative circles
-            doc.setFillColor(255, 255, 255, 0.1);
-            doc.circle(180, 20, 25, 'F');
-            doc.circle(30, 60, 15, 'F');
-
-            // Header section
-            doc.setTextColor(255, 255, 255);
-            doc.setFontSize(32);
+            // Clean header section
+            doc.setTextColor(0, 0, 0);
+            doc.setFontSize(28);
             doc.setFont('helvetica', 'bold');
-            doc.text('B-SCORE', 20, 35);
-            
-            doc.setFontSize(16);
-            doc.setFont('helvetica', 'normal');
-            doc.text('Wellbeing Assessment Report', 20, 45);
+            doc.text('B-SCORE REPORT', 105, 30, { align: 'center' });
             
             doc.setFontSize(12);
-            doc.text('Mave Health', 20, 55);
-
-            // User info card with modern styling
-            doc.setFillColor(255, 255, 255);
-            doc.roundedRect(20, 90, 170, 25, 8, 8, 'F');
-            doc.setDrawColor(240, 242, 247);
-            doc.setLineWidth(0.5);
-            doc.roundedRect(20, 90, 170, 25, 8, 8, 'S');
-
-            doc.setTextColor(26, 32, 44);
-            doc.setFontSize(18);
-            doc.setFont('helvetica', 'bold');
-            doc.text(currentData.name, 25, 103);
-            
-            doc.setFontSize(10);
-            doc.setTextColor(107, 114, 128);
             doc.setFont('helvetica', 'normal');
-            doc.text(`Generated: ${new Date().toLocaleDateString('en-US', { 
-                year: 'numeric', month: 'long', day: 'numeric' 
-            })}`, 25, 108);
+            doc.text('Mave Health Wellbeing Assessment', 105, 38, { align: 'center' });
 
-            // Main B-Score card with black styling
-            doc.setFillColor(0, 0, 0);
-            doc.roundedRect(20, 125, 170, 50, 12, 12, 'F');
+            // Thin line separator
+            doc.setLineWidth(0.5);
+            doc.setDrawColor(0, 0, 0);
+            doc.line(30, 45, 180, 45);
 
-            // Decorative elements for B-Score card
-            doc.setFillColor(255, 255, 255, 0.2);
-            doc.circle(170, 140, 20, 'F');
-            doc.setFillColor(255, 255, 255, 0.1);
-            doc.circle(180, 160, 15, 'F');
-
-            doc.setTextColor(255, 255, 255);
+            // User info - clean and minimal
             doc.setFontSize(16);
             doc.setFont('helvetica', 'bold');
-            doc.text('Buoyancy Score', 25, 140);
+            doc.text(`Name: ${currentData.name}`, 30, 60);
             
-            doc.setFontSize(48);
-            doc.text(currentData.total.toString(), 25, 165);
-            doc.setFontSize(20);
-            doc.text('/100', 75, 165);
+            doc.setFontSize(10);
+            doc.setFont('helvetica', 'normal');
+            doc.setTextColor(100, 100, 100);
+            doc.text(`Generated: ${new Date().toLocaleDateString()}`, 30, 67);
 
-            // Aesthetic progress bar
-            const barWidth = 100;
-            const barHeight = 8;
-            doc.setFillColor(255, 255, 255, 0.3);
-            doc.roundedRect(90, 150, barWidth, barHeight, 4, 4, 'F');
-            doc.setFillColor(255, 255, 255);
-            doc.roundedRect(90, 150, (currentData.total * barWidth) / 100, barHeight, 4, 4, 'F');
+            // Main B-Score - centered and prominent
+            doc.setTextColor(0, 0, 0);
+            doc.setFontSize(14);
+            doc.setFont('helvetica', 'bold');
+            doc.text('OVERALL B-SCORE', 105, 85, { align: 'center' });
+            
+            doc.setFontSize(60);
+            doc.setFont('helvetica', 'bold');
+            doc.text(`${currentData.total}`, 105, 110, { align: 'center' });
+            
+            doc.setFontSize(14);
+            doc.setFont('helvetica', 'normal');
+            doc.text('/100', 125, 110);
 
-            // Individual scores with beautiful design
+            // Clean progress bar
+            const barWidth = 120;
+            const barHeight = 6;
+            doc.setFillColor(240, 240, 240);
+            doc.rect(45, 120, barWidth, barHeight, 'F');
+            doc.setFillColor(0, 0, 0);
+            doc.rect(45, 120, (currentData.total * barWidth) / 100, barHeight, 'F');
+
+            // Individual scores - clean grid layout
             const scores = [
-                { name: 'Mood & Motivation', value: currentData.mood, desc: 'Your mental energy and drive levels', color: [0, 0, 0] },
-                { name: 'Calm & Composure', value: currentData.calm, desc: 'Your ability to stay centered under pressure', color: [0, 0, 0] },
-                { name: 'Identity & Purpose', value: currentData.identity, desc: 'Your sense of self and life direction', color: [0, 0, 0] },
-                { name: 'Emotional Awareness', value: currentData.awareness, desc: 'Your understanding of your emotional patterns', color: [0, 0, 0] },
-                { name: 'Resilience', value: currentData.resilience, desc: 'Your ability to bounce back from challenges', color: [0, 0, 0] }
+                { name: 'Mood & Motivation', value: currentData.mood, desc: 'Mental energy and drive levels' },
+                { name: 'Calm & Composure', value: currentData.calm, desc: 'Ability to stay centered under pressure' },
+                { name: 'Identity & Purpose', value: currentData.identity, desc: 'Sense of self and life direction' },
+                { name: 'Emotional Awareness', value: currentData.awareness, desc: 'Understanding of emotional patterns' },
+                { name: 'Resilience', value: currentData.resilience, desc: 'Ability to bounce back from challenges' }
             ];
 
-            let yPos = 190;
-            scores.forEach(({ name, value, desc, color }) => {
-                // Score card background with shadow effect
-                doc.setFillColor(255, 255, 255);
-                doc.roundedRect(20, yPos, 170, 28, 6, 6, 'F');
-                doc.setDrawColor(240, 242, 247);
-                doc.setLineWidth(0.5);
-                doc.roundedRect(20, yPos, 170, 28, 6, 6, 'S');
+            doc.setFontSize(14);
+            doc.setFont('helvetica', 'bold');
+            doc.setTextColor(0, 0, 0);
+            doc.text('DETAILED BREAKDOWN', 30, 150);
 
-                // Colored accent bar
-                doc.setFillColor(...color);
-                doc.roundedRect(20, yPos, 4, 28, 2, 2, 'F');
+            // Thin line separator
+            doc.line(30, 155, 180, 155);
 
-                // Score name and value
-                doc.setTextColor(31, 41, 55);
+            let yPos = 170;
+            scores.forEach(({ name, value, desc }) => {
+                // Score name
                 doc.setFontSize(12);
                 doc.setFont('helvetica', 'bold');
-                doc.text(name, 30, yPos + 10);
+                doc.setTextColor(0, 0, 0);
+                doc.text(name, 30, yPos);
                 
-                doc.setFontSize(20);
-                doc.text(value.toString(), 155, yPos + 12);
+                // Score value - right aligned
+                doc.setFontSize(18);
+                doc.setFont('helvetica', 'bold');
+                doc.text(`${value}`, 170, yPos);
+                doc.setFontSize(10);
+                doc.setFont('helvetica', 'normal');
+                doc.text('/100', 175, yPos);
 
                 // Description
-                doc.setTextColor(107, 114, 128);
-                doc.setFontSize(8);
+                doc.setFontSize(9);
                 doc.setFont('helvetica', 'normal');
-                const wrappedDesc = doc.splitTextToSize(desc, 120);
-                doc.text(wrappedDesc[0], 30, yPos + 16);
+                doc.setTextColor(80, 80, 80);
+                doc.text(desc, 30, yPos + 6);
 
-                // Mini progress bar
-                const miniBarWidth = 60;
+                // Clean progress bar
+                const miniBarWidth = 100;
                 const miniBarHeight = 3;
-                doc.setFillColor(245, 247, 250);
-                doc.roundedRect(30, yPos + 20, miniBarWidth, miniBarHeight, 1.5, 1.5, 'F');
-                doc.setFillColor(...color);
-                doc.roundedRect(30, yPos + 20, (value * miniBarWidth) / 100, miniBarHeight, 1.5, 1.5, 'F');
+                doc.setFillColor(240, 240, 240);
+                doc.rect(30, yPos + 10, miniBarWidth, miniBarHeight, 'F');
+                doc.setFillColor(0, 0, 0);
+                doc.rect(30, yPos + 10, (value * miniBarWidth) / 100, miniBarHeight, 'F');
 
-                yPos += 32;
+                yPos += 25;
             });
 
-            // Footer with black background
-            doc.setFillColor(0, 0, 0);
-            doc.rect(0, 285, 210, 12, 'F');
-            doc.setTextColor(255, 255, 255);
+            // Clean footer
+            doc.setLineWidth(0.5);
+            doc.setDrawColor(200, 200, 200);
+            doc.line(30, 280, 180, 280);
+            
+            doc.setTextColor(100, 100, 100);
             doc.setFontSize(8);
             doc.setFont('helvetica', 'normal');
-            doc.text('© 2025 Mave Health - Confidential Wellbeing Report', 20, 292);
-            doc.text(`ID: ${Math.random().toString(36).substr(2, 9).toUpperCase()}`, 150, 292);
+            doc.text('© 2025 Mave Health', 30, 287);
+            doc.text(`Report ID: ${Math.random().toString(36).substr(2, 9).toUpperCase()}`, 150, 287);
 
             doc.save(`${currentData.name}_B-Score_Report.pdf`);
         }
