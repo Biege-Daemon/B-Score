@@ -372,95 +372,129 @@
             const { jsPDF } = window.jspdf;
             const doc = new jsPDF('p', 'mm', 'a4');
 
-            // Header
-            doc.setTextColor(0, 0, 0);
-            doc.setFontSize(28);
+            // Modern header with clean typography
+            doc.setFillColor(0, 0, 0);
+            doc.rect(0, 0, 210, 50, 'F');
+            
+            doc.setTextColor(255, 255, 255);
+            doc.setFontSize(32);
             doc.setFont('helvetica', 'bold');
-            doc.text('B-SCORE REPORT', 105, 30, { align: 'center' });
+            doc.text('B-SCORE', 30, 25);
             
             doc.setFontSize(12);
             doc.setFont('helvetica', 'normal');
-            doc.text('Mave Health Wellbeing Assessment', 105, 38, { align: 'center' });
+            doc.text('WELLBEING ASSESSMENT REPORT', 30, 35);
+            
+            // User name in header
+            doc.setFontSize(14);
+            doc.setFont('helvetica', 'bold');
+            doc.text(`${currentData.name}`, 150, 25);
+            
+            doc.setFontSize(10);
+            doc.setFont('helvetica', 'normal');
+            doc.text('MAVE HEALTH', 150, 35);
 
-            // Line separator
-            doc.setLineWidth(0.5);
-            doc.line(30, 45, 180, 45);
-
-            // User name only
+            // Main score section with modern card design
+            doc.setFillColor(248, 250, 252);
+            doc.roundedRect(30, 70, 150, 50, 8, 8, 'F');
+            
+            doc.setTextColor(0, 0, 0);
             doc.setFontSize(16);
             doc.setFont('helvetica', 'bold');
-            doc.text(`Name: ${currentData.name}`, 30, 60);
-
-            // Main B-Score
-            doc.setFontSize(14);
-            doc.setFont('helvetica', 'bold');
-            doc.text('OVERALL B-SCORE', 105, 80, { align: 'center' });
+            doc.text('OVERALL B-SCORE', 105, 85, { align: 'center' });
             
-            doc.setFontSize(48);
-            doc.text(`${currentData.total}`, 95, 105, { align: 'center' });
-            
-            doc.setFontSize(12);
-            doc.setFont('helvetica', 'normal');
-            doc.text('/100', 115, 105);
-
-            // Progress bar for total score
-            const barWidth = 120;
-            const barHeight = 6;
-            doc.setFillColor(240, 240, 240);
-            doc.rect(45, 115, barWidth, barHeight, 'F');
-            doc.setFillColor(0, 0, 0);
-            doc.rect(45, 115, (currentData.total * barWidth) / 100, barHeight, 'F');
-
-            // Individual scores section
-            doc.setFontSize(14);
+            doc.setFontSize(56);
             doc.setFont('helvetica', 'bold');
-            doc.text('DETAILED BREAKDOWN', 30, 140);
-            doc.line(30, 145, 180, 145);
+            doc.text(`${currentData.total}`, 105, 110, { align: 'center' });
+            
+            // Modern progress circle representation
+            const centerX = 105;
+            const centerY = 140;
+            const radius = 15;
+            const percentage = currentData.total / 100;
+            
+            // Background circle
+            doc.setDrawColor(230, 230, 230);
+            doc.setLineWidth(4);
+            doc.circle(centerX, centerY, radius, 'S');
+            
+            // Progress arc
+            doc.setDrawColor(0, 0, 0);
+            doc.setLineWidth(4);
+            const endAngle = (percentage * 2 * Math.PI) - (Math.PI / 2);
+            for (let i = 0; i < percentage * 100; i++) {
+                const angle = (i / 100) * 2 * Math.PI - (Math.PI / 2);
+                const x1 = centerX + radius * Math.cos(angle);
+                const y1 = centerY + radius * Math.sin(angle);
+                const x2 = centerX + (radius - 0.1) * Math.cos(angle);
+                const y2 = centerY + (radius - 0.1) * Math.sin(angle);
+                doc.line(x1, y1, x2, y2);
+            }
+
+            // Detailed scores section
+            doc.setTextColor(0, 0, 0);
+            doc.setFontSize(18);
+            doc.setFont('helvetica', 'bold');
+            doc.text('DETAILED BREAKDOWN', 30, 175);
 
             const scores = [
-                { name: 'Mood & Motivation', value: currentData.mood },
-                { name: 'Calm & Composure', value: currentData.calm },
-                { name: 'Identity & Purpose', value: currentData.identity },
-                { name: 'Emotional Awareness', value: currentData.awareness },
-                { name: 'Resilience', value: currentData.resilience }
+                { name: 'Mood & Motivation', value: currentData.mood, desc: 'Mental energy and drive levels' },
+                { name: 'Calm & Composure', value: currentData.calm, desc: 'Ability to stay centered under pressure' },
+                { name: 'Identity & Purpose', value: currentData.identity, desc: 'Sense of self and life direction' },
+                { name: 'Emotional Awareness', value: currentData.awareness, desc: 'Understanding of emotional patterns' },
+                { name: 'Resilience', value: currentData.resilience, desc: 'Ability to bounce back from challenges' }
             ];
 
-            let yPos = 160;
-            scores.forEach(({ name, value }) => {
-                // Score name
-                doc.setFontSize(11);
-                doc.setFont('helvetica', 'bold');
-                doc.text(name, 30, yPos);
+            let yPos = 190;
+            scores.forEach(({ name, value, desc }, index) => {
+                // Modern card for each score
+                doc.setFillColor(index % 2 === 0 ? 255 : 248, index % 2 === 0 ? 255 : 250, index % 2 === 0 ? 255 : 252);
+                doc.roundedRect(30, yPos - 5, 150, 28, 4, 4, 'F');
                 
-                // Score value - properly positioned
-                doc.setFontSize(16);
+                // Score name
+                doc.setTextColor(0, 0, 0);
+                doc.setFontSize(13);
                 doc.setFont('helvetica', 'bold');
-                doc.text(`${value}`, 155, yPos);
+                doc.text(name, 35, yPos + 3);
+                
+                // Score value with modern styling
+                doc.setFontSize(20);
+                doc.setFont('helvetica', 'bold');
+                doc.text(`${value}`, 155, yPos + 3);
                 
                 doc.setFontSize(10);
                 doc.setFont('helvetica', 'normal');
-                doc.text('/100', 165, yPos);
+                doc.setTextColor(100, 100, 100);
+                doc.text('/100', 166, yPos + 3);
 
-                // Progress bar
-                const miniBarWidth = 80;
-                const miniBarHeight = 4;
-                doc.setFillColor(240, 240, 240);
-                doc.rect(30, yPos + 5, miniBarWidth, miniBarHeight, 'F');
+                // Description with better visibility
+                doc.setFontSize(10);
+                doc.setFont('helvetica', 'normal');
+                doc.setTextColor(80, 80, 80);
+                doc.text(desc, 35, yPos + 12);
+
+                // Modern progress bar
+                const barWidth = 100;
+                const barHeight = 3;
+                doc.setFillColor(230, 230, 230);
+                doc.roundedRect(35, yPos + 16, barWidth, barHeight, 1.5, 1.5, 'F');
                 doc.setFillColor(0, 0, 0);
-                doc.rect(30, yPos + 5, (value * miniBarWidth) / 100, miniBarHeight, 'F');
+                doc.roundedRect(35, yPos + 16, (value * barWidth) / 100, barHeight, 1.5, 1.5, 'F');
 
-                yPos += 20;
+                yPos += 35;
             });
 
-            // Footer
-            doc.setLineWidth(0.3);
-            doc.setDrawColor(200, 200, 200);
-            doc.line(30, 270, 180, 270);
+            // Modern footer
+            doc.setFillColor(248, 250, 252);
+            doc.rect(0, 270, 210, 27, 'F');
             
-            doc.setTextColor(120, 120, 120);
-            doc.setFontSize(8);
-            doc.text('© 2025 Mave Health', 30, 280);
-            doc.text(`Report ID: ${Math.random().toString(36).substr(2, 9).toUpperCase()}`, 140, 280);
+            doc.setTextColor(100, 100, 100);
+            doc.setFontSize(9);
+            doc.setFont('helvetica', 'normal');
+            doc.text('© 2025 Mave Health', 30, 285);
+            
+            const reportId = Math.random().toString(36).substr(2, 9).toUpperCase();
+            doc.text(`Report ID: ${reportId}`, 130, 285);
 
             doc.save(`${currentData.name}_B-Score_Report.pdf`);
         }
